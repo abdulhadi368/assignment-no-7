@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface ITodo {
   id: number;
@@ -43,10 +44,12 @@ const Page = () => {
             key={product.id}
             className="border p-4 rounded shadow-sm hover:shadow-lg"
           >
-            <img
+            <Image
               src={product.image}
-              alt={product.title}
+              alt={product.title} 
               className="w-full h-64 object-cover mb-4"
+              height={256} 
+              width={256}  
             />
             <h2 className="text-xl font-semibold">{product.title}</h2>
             <p className="text-black">{product.description}</p>
