@@ -1,64 +1,30 @@
-'use client';
+import React from 'react'
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-
-interface ITodo {
-  id: number;
+interface ITodo{
+  id:number;
   title: string;
   description: string;
   price: number;
   image: string;
+  userId: number;
 }
 
-const Page = () => {
-  const [products, setProducts] = useState<ITodo[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await fetch('https://fakestoreapi.com/products');
-        const data: ITodo[] = await response.json();
-        setProducts(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      }
-    }
-
-    fetchProducts();
-  }, []);
-
-  if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
+const clientSide = async () => {
+  const url = await fetch ("https://simple-books-api.glitch.me/books/")
+  const data: ITodo[] = await url.json();
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center mb-6">Product List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="border p-4 rounded shadow-sm hover:shadow-lg"
-          >
-            <Image
-              src={product.image}
-              alt={product.title} 
-              className="w-full h-64 object-cover mb-4"
-              height={256} 
-              width={256}  
-            />
-            <h2 className="text-xl font-semibold">{product.title}</h2>
-            <p className="text-black">{product.description}</p>
-            <p className="text-lg font-bold mt-2">${product.price}</p>
-          </div>
-        ))}
-      </div>
+    <div>
+      <h1 className='font-bold text-center text-[50px] underline'>Product List</h1>
+      {data.map((todo, index) => (
+        <div key={index} className='flex flex-col gap-5 border border-black hover:shadow-xl'>
+          <p>userId: {todo.userId}</p>
+          <p>Id: {todo.id}</p>
+          <p>title: {todo.title}</p>
+        </div>
+      ))}
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default clientSide;
